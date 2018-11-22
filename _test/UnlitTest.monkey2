@@ -35,7 +35,7 @@ Class MyWindow Extends Window
 	
 	Method OnCreateWindow() Override
 		
-		'create (current) scene
+		'---------------------------------- create (current) scene ---------------------------------- 
 		_scene=New Scene
 		_scene.ClearColor = New Color( 0.2, 0.2, 0.2 )
 		_scene.AmbientLight = _scene.ClearColor * 0.25
@@ -43,20 +43,21 @@ Class MyWindow Extends Window
 		_scene.FogNear = 30.0
 		_scene.FogFar = 110.0
 		
-		'create camera
+		'---------------------------------- create camera ---------------------------------- 
 		_camera=New Camera( Self )
 		_camera.AddComponent<FlyBehaviour>()
 		_camera.Move( 0,2.5,-15 )
 		_camera.FOV = 35
 		_camera.Far = 200
 		
-		'create light
+		' ---------------------------------- create light ---------------------------------- 
 		_light=New Light
 		_light.Color = Color.White' * 10
 		_light.CastsShadow=True
 		_light.Rotate( 45, 45, 0 )
 		
-		'create materials
+		'----------------------------------  create materials ---------------------------------- 
+		
 		Local cat := Texture.Load( "asset::cat.png", TextureFlags.None )
 
 		_unlit1 =New UnlitMaterial( Color.White )
@@ -70,10 +71,10 @@ Class MyWindow Extends Window
 '		Local cats := Texture.Load( "asset::cats.png", TextureFlags.None )
 '		_unlit2.ColorTexture = cats
 		
-		'create objs
+		'---------------------------------- create objs ---------------------------------- 
 		
 		_box=Model.CreateBox( New Boxf(-2,-2,-2,2,2,2), 1,1,1, _pbr1 )
-		_box.Move( 3,2.5,0 )
+		_box.Move(2,2.5,-2 )
 		_boxes.Add( _box )
 		
 '		_donut=Model.CreateTorus( 2,.5,48,24, _unlit2 )
@@ -94,6 +95,8 @@ Class MyWindow Extends Window
 		Print z
 	End
 	
+	'---------------------------------- Render Loop ---------------------------------- 
+	
 	Method OnRender( canvas:Canvas ) Override
 		RequestRender()
 		
@@ -113,21 +116,21 @@ Class MyWindow Extends Window
 		For Local b := Eachin _boxes
 			b.Rotate( -.2,.4,-.6 )
 		Next
+		
 '		_donut.Rotate( .2,.4,.6 )
 		
 		_scene.Update()
 		_camera.View = Self
 		_camera.Render( canvas )
-		canvas.DrawText( "FPS="+App.FPS,0,0 )
+		canvas.DrawText( "FPS: " + App.FPS, 10, 10 )
+		canvas.DrawText( "Hit Space Bar to toggle between PbrMaterial and UnlitMaterial",10,30 )
 	End
 	
 End
 
-Function Main()
 
+Function Main()
 	New AppInstance
-	
 	New MyWindow
-	
 	App.Run()
 End
