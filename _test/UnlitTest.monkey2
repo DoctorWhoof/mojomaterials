@@ -5,9 +5,9 @@ Namespace myapp3d
 #Import "<mojo3d>"
 
 #Import "../UnlitMaterial"
-#Import "textures/cat.png"
-#Import "textures/cats.png"
 
+#Import "textures/cat.png"
+#Import "textures/cat_RGB.png"
 
 Using std..
 Using mojo..
@@ -28,12 +28,18 @@ Class MyWindow Extends Window
 	Field _unlit1:UnlitMaterial
 	Field _unlit2:UnlitMaterial
 	
+	Field _catRGB:Texture
+	Field _catRGBA:Texture
+	
 	Method New( title:String="Simple mojo3d app",width:Int=1920,height:Int=1080,flags:WindowFlags=WindowFlags.Resizable | WindowFlags.HighDPI )
 		Super.New( title,width,height,flags )
 	End
-	
+
 	
 	Method OnCreateWindow() Override
+		
+		SetConfig( "MOJO3D_RENDERER","forward" )
+		SwapInterval = 0
 		
 		'---------------------------------- create (current) scene ---------------------------------- 
 		_scene=New Scene
@@ -58,13 +64,14 @@ Class MyWindow Extends Window
 		
 		'----------------------------------  create materials ---------------------------------- 
 		
-		Local cat := Texture.Load( "asset::cat.png", TextureFlags.None )
+		_catRGB = Texture.Load( "asset::cat_RGB.png", TextureFlags.None )
+		_catRGBA = Texture.Load( "asset::cat.png", TextureFlags.None )
 
 		_unlit1 =New UnlitMaterial( Color.White )
-		_unlit1.ColorTexture = cat
+		_unlit1.ColorTexture = _catRGBA
 		
 		_pbr1 = New PbrMaterial( Color.White, 0, 0.5 )
-		_pbr1.ColorTexture = cat
+		_pbr1.ColorTexture = _catRGB
 		
 		_unlit2 =New UnlitMaterial( New Color(1,0.5,0) )
 '		_unlit2.BlendMode = BlendMode.Additive
@@ -83,13 +90,13 @@ Class MyWindow Extends Window
 		
 		Local z:= 20.0
 		For Local x := 1 To 15
-			For Local y := 1 To 6
+			For Local y := 1 To 10
 				Local box := _box.Copy()
-				box.Position = New Vec3f((x-5)*5,(y-3)*4,z)
+				box.Position = New Vec3f((x-5)*5,(y-5)*4,z)
 				box.Color = New Color( Rnd(0.3,0.9), Rnd(0.3,0.9), Rnd(0.3,0.9) )
 				box.CastsShadow = False
 				_boxes.Add( box )
-				z += 0.75
+				z += 0.4
 			Next
 		Next
 		Print z

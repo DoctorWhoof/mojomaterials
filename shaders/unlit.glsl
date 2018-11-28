@@ -7,7 +7,7 @@ void main(){
 }
 
 //@fragment
-#if MX2_COLORPASS	//is this a color pass?
+#if MX2_COLORPASS
 
 	uniform vec4 m_ColorFactor;
 	uniform float m_AlphaDiscard;
@@ -21,11 +21,11 @@ void main(){
 		vec4 color=texture2D( m_ColorTexture,v_TexCoord0 );
 		color.rgb=pow( color.rgb,vec3( 2.2 ) );
 		color*=m_ColorFactor * v_Color;
-	#else	//untextured...
+	#else
 		vec4 color=m_ColorFactor * v_Color;
 	#endif
 		if( color.a<m_AlphaDiscard ) discard;
-		gl_FragColor=color;
+		emitColorFragment(color);
 	}
 
 #else	//if not a color pass, must be a shadow pass...
