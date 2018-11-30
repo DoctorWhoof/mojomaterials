@@ -26,7 +26,6 @@ Class MyWindow Extends Window
 	
 	Field _pbr1:PbrMaterial
 	Field _unlit1:UnlitMaterial
-	Field _unlit2:UnlitMaterial
 	
 	Field _catRGB:Texture
 	Field _catRGBA:Texture
@@ -69,14 +68,10 @@ Class MyWindow Extends Window
 
 		_unlit1 =New UnlitMaterial( Color.White )
 		_unlit1.ColorTexture = _catRGBA
+'		_unlit1.BlendMode = BlendMode.Additive
 		
 		_pbr1 = New PbrMaterial( Color.White, 0, 0.5 )
 		_pbr1.ColorTexture = _catRGB
-		
-		_unlit2 =New UnlitMaterial( New Color(1,0.5,0) )
-'		_unlit2.BlendMode = BlendMode.Additive
-'		Local cats := Texture.Load( "asset::cats.png", TextureFlags.None )
-'		_unlit2.ColorTexture = cats
 		
 		'---------------------------------- create objs ---------------------------------- 
 		

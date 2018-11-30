@@ -24,8 +24,14 @@ void main(){
 	#else
 		vec4 color=m_ColorFactor * v_Color;
 	#endif
-		if( color.a<m_AlphaDiscard ) discard;
+	
+	if( color.a<m_AlphaDiscard ) discard;
+	
+	#if MX2_FORWARDRENDERER || MX2_FORWARDPASS
 		emitColorFragment(color);
+	#else
+		gl_FragColor = color;
+	#endif
 	}
 
 #else	//if not a color pass, must be a shadow pass...
